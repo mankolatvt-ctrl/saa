@@ -174,7 +174,7 @@ function renderHours(times, temps, codes, probs, nowIso){
 }
 
 function load(){
-  var url = "http://api.open-meteo.com/v1/forecast"+
+  var url = "https://api.open-meteo.com/v1/forecast"+
     "?latitude="+LAT+"&longitude="+LON+
     "&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m"+
     "&hourly=temperature_2m,precipitation_probability,weather_code"+
