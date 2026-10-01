@@ -2,7 +2,7 @@
 <html lang="fi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=1345">
 <title>Mankolan koulun sää</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,8 +133,9 @@
 var STAGE_W = 1345, STAGE_H = 980;
 var LAT = 62.27, LON = 25.715, HOURS_SHOWN = 6;
 // Vaihda tähän oman Cloudflare Workerisi osoite (ilman polkua/kysymysmerkkiä).
-// Jätä tyhjäksi ("") jos haluat kutsua Open-Meteota suoraan ilman proxyä.
-var API_BASE = "http://saa-proxy.mankolatvt.workers.dev/";
+// HUOM: tässä käytetään http:// (ei https://), koska laitteen vanha
+// TLS-tuki ei saa yhteyttä https-osoitteisiin.
+var API_BASE = "http://saa-proxy.OMATUNNUS.workers.dev";
 
 var GROUP = {
   0:"sun", 1:"sun",
@@ -164,19 +165,15 @@ function pad(n){
 }
 var WD = ["su","ma","ti","ke","to","pe","la"];
 
+// Näytön resoluutio on tasan 1345x980, eli sama kuin #stage - ei skaalata
+// mitään. Tämä välttää vanhan selaimen mahdolliset virheelliset
+// window.innerWidth/innerHeight-mittaukset kokonaan.
 function fit(){
   var st = document.getElementById("stage");
-  var sx = window.innerWidth / STAGE_W;
-  var sy = window.innerHeight / STAGE_H;
-  st.style.webkitTransform = "scale(" + sx + "," + sy + ")";
-  st.style.transform = "scale(" + sx + "," + sy + ")";
+  st.style.webkitTransform = "none";
+  st.style.transform = "none";
   st.style.left = "0px";
   st.style.top = "0px";
-}
-if (window.addEventListener) {
-  window.addEventListener("resize", fit, false);
-} else if (window.attachEvent) {
-  window.attachEvent("onresize", fit);
 }
 fit();
 
