@@ -132,6 +132,9 @@
 <script type="text/javascript">
 var STAGE_W = 1345, STAGE_H = 980;
 var LAT = 62.27, LON = 25.715, HOURS_SHOWN = 6;
+// Vaihda tähän oman Cloudflare Workerisi osoite (ilman polkua/kysymysmerkkiä).
+// Jätä tyhjäksi ("") jos haluat kutsua Open-Meteota suoraan ilman proxyä.
+var API_BASE = "https://saa-proxy.mankolatvt.workers.dev/";
 
 var GROUP = {
   0:"sun", 1:"sun",
@@ -213,7 +216,10 @@ function showError(msg){
 }
 
 function load(){
-  var url = "https://api.open-meteo.com/v1/forecast" +
+  var base = (API_BASE && API_BASE.indexOf("OMATUNNUS") === -1)
+    ? API_BASE
+    : "https://api.open-meteo.com/v1/forecast";
+  var url = base +
     "?latitude=" + LAT + "&longitude=" + LON +
     "&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m" +
     "&hourly=temperature_2m,precipitation_probability,weather_code" +
